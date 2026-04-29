@@ -1,59 +1,168 @@
-# PruebaTecnicaCarsales
+# API de Contactos — Prueba Técnica Carsales
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.8.
+Esta prueba consiste en una **API REST en ASP.NET Core (.NET 10)** que permite agregar, buscar, eliminar y actualizar contactos en memoria, aplicando arquitectura desacoplada, validaciones, manejo global de errores y pruebas automatizadas.
 
-## Development server
+---
 
-To start a local development server, run:
+# Arquitectura
 
-```bash
-ng serve
-```
+La solución implementa **separación de responsabilidades** por capas:
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Controller → Manejo de endpoints HTTP  
+- Service → Lógica de negocio  
+- Domain → Modelo de datos  
+- DTO → Validaciones de entrada  
+- Middleware → Manejo global de excepciones  
+- Interfaces → Código desacoplado y testeable  
 
-## Code scaffolding
+Esta arquitectura permite mantener el código organizado, reutilizable y fácil de testear.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+---
 
-```bash
-ng generate component component-name
-```
+# Tecnologías utilizadas
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- ASP.NET Core (.NET 10)
+- Swagger
+- xUnit
+- FluentAssertions
+- Angular (Frontend)
+- C#
+- Dependency Injection
+- Middleware personalizado
 
-```bash
-ng generate --help
-```
+---
 
-## Building
+# Ejecutar Backend
 
-To build the project run:
+Abrir terminal y ejecutar:
 
-```bash
-ng build
-```
+cd Backend/PruebaTecnicaCarsales.BFF  
+dotnet run  
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Luego abrir en navegador:
 
-## Running unit tests
+http://localhost:5021/swagger  
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Esto abrirá Swagger para probar la API.
 
-```bash
-ng test
-```
+---
 
-## Running end-to-end tests
+# Ejecutar Tests
 
-For end-to-end (e2e) testing, run:
+Desde la raíz del proyecto ejecutar:
 
-```bash
-ng e2e
-```
+dotnet test PruebaTecnicaCarsales.Test/PruebaTecnicaCarsales.Test.csproj  
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Tests implementados:
 
-## Additional Resources
+- Test unitario (crear contacto correctamente)  
+- Test unitario (validar largo del teléfono)  
+- Test de integración (POST contacto)  
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+
+# Endpoints Disponibles
+
+Crear contacto:
+
+POST /api/Contacts  
+
+Ejemplo:
+
+{
+  "nombre": "Simon",
+  "telefono": "987654321"
+}
+
+---
+
+Obtener contacto por Id:
+
+GET /api/Contacts/{id}
+
+---
+
+Obtener lista de contactos:
+
+GET /api/Contacts
+
+---
+
+Eliminar contacto:
+
+DELETE /api/Contacts/{id}
+
+---
+
+# Funcionalidades implementadas
+
+- Id autoincrementable  
+- Validación de teléfono (9 dígitos)  
+- Evita duplicados por nombre y teléfono  
+- Manejo global de errores  
+- Thread-safe  
+- Uso de interfaces  
+- Logging estructurado  
+- Tests unitarios  
+- Test de integración  
+
+---
+
+# Manejo Global de Errores
+
+Se implementa un middleware personalizado llamado:
+
+ErrorMiddleware  
+
+Este middleware captura:
+
+- InvalidOperationException → 400 (Bad Request)  
+- Exception → 500 (Internal Server Error)  
+
+Ejemplo de respuesta:
+
+{
+  "message": "Ya existe el contacto en la lista con el mismo nombre y teléfono"
+}
+
+Esto permite centralizar el manejo de errores y evitar duplicar código en los controladores.
+
+---
+
+# Concurrencia
+
+La solución es **thread-safe**, evitando problemas cuando múltiples solicitudes intentan agregar contactos al mismo tiempo.
+
+Se utiliza:
+
+lock(lockObject)
+
+Esto asegura que la lista de contactos se modifique de forma segura.
+
+---
+
+# Swagger
+
+Swagger está habilitado y disponible en:
+
+http://localhost:5021/swagger  
+
+Permite probar todos los endpoints de la API.
+
+---
+
+# Funcionalidades adicionales implementadas
+
+- Middleware personalizado  
+- Logging estructurado  
+- Arquitectura desacoplada  
+- Uso de interfaces  
+- Thread-safe  
+- Tests unitarios  
+- Test de integración  
+
+---
+
+# Autor
+
+Simón Pereira Vigouroux

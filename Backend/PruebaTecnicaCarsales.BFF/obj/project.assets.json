@@ -494,7 +494,7 @@
   "projectFileDependencyGroups": {
     "net10.0": [
       "Microsoft.AspNetCore.OpenApi >= 10.0.2",
-      "SwashBuckle.AspNetCore >= 10.1.7"
+      "Swashbuckle.AspNetCore >= 10.1.7"
     ]
   },
   "packageFolders": {
@@ -504,11 +504,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\simon\\source\\repos\\PruebaTecnicaCarsales\\Backend\\PruebaTecnicaCarsales.BFF\\PruebaTecnicaCarsales.BFF.csproj",
+      "projectUniqueName": "C:\\Users\\simon\\source\\repos\\PruebaTecnicaCarsalesApi\\Backend\\PruebaTecnicaCarsales.BFF\\PruebaTecnicaCarsales.BFF.csproj",
       "projectName": "PruebaTecnicaCarsales.BFF",
-      "projectPath": "C:\\Users\\simon\\source\\repos\\PruebaTecnicaCarsales\\Backend\\PruebaTecnicaCarsales.BFF\\PruebaTecnicaCarsales.BFF.csproj",
+      "projectPath": "C:\\Users\\simon\\source\\repos\\PruebaTecnicaCarsalesApi\\Backend\\PruebaTecnicaCarsales.BFF\\PruebaTecnicaCarsales.BFF.csproj",
       "packagesPath": "C:\\Users\\simon\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\simon\\source\\repos\\PruebaTecnicaCarsales\\Backend\\PruebaTecnicaCarsales.BFF\\obj\\",
+      "outputPath": "C:\\Users\\simon\\source\\repos\\PruebaTecnicaCarsalesApi\\Backend\\PruebaTecnicaCarsales.BFF\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -552,7 +552,7 @@
             "target": "Package",
             "version": "[10.0.2, )"
           },
-          "SwashBuckle.AspNetCore": {
+          "Swashbuckle.AspNetCore": {
             "target": "Package",
             "version": "[10.1.7, )"
           }

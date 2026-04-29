@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\simon\\source\\repos\\PruebaTecnicaCarsales\\Backend\\PruebaTecnicaCarsales.BFF\\PruebaTecnicaCarsales.BFF.csproj": {}
+    "C:\\Users\\simon\\source\\repos\\PruebaTecnicaCarsalesApi\\Backend\\PruebaTecnicaCarsales.BFF\\PruebaTecnicaCarsales.BFF.csproj": {}
   },
   "projects": {
-    "C:\\Users\\simon\\source\\repos\\PruebaTecnicaCarsales\\Backend\\PruebaTecnicaCarsales.BFF\\PruebaTecnicaCarsales.BFF.csproj": {
+    "C:\\Users\\simon\\source\\repos\\PruebaTecnicaCarsalesApi\\Backend\\PruebaTecnicaCarsales.BFF\\PruebaTecnicaCarsales.BFF.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\simon\\source\\repos\\PruebaTecnicaCarsales\\Backend\\PruebaTecnicaCarsales.BFF\\PruebaTecnicaCarsales.BFF.csproj",
+        "projectUniqueName": "C:\\Users\\simon\\source\\repos\\PruebaTecnicaCarsalesApi\\Backend\\PruebaTecnicaCarsales.BFF\\PruebaTecnicaCarsales.BFF.csproj",
         "projectName": "PruebaTecnicaCarsales.BFF",
-        "projectPath": "C:\\Users\\simon\\source\\repos\\PruebaTecnicaCarsales\\Backend\\PruebaTecnicaCarsales.BFF\\PruebaTecnicaCarsales.BFF.csproj",
+        "projectPath": "C:\\Users\\simon\\source\\repos\\PruebaTecnicaCarsalesApi\\Backend\\PruebaTecnicaCarsales.BFF\\PruebaTecnicaCarsales.BFF.csproj",
         "packagesPath": "C:\\Users\\simon\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\simon\\source\\repos\\PruebaTecnicaCarsales\\Backend\\PruebaTecnicaCarsales.BFF\\obj\\",
+        "outputPath": "C:\\Users\\simon\\source\\repos\\PruebaTecnicaCarsalesApi\\Backend\\PruebaTecnicaCarsales.BFF\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
