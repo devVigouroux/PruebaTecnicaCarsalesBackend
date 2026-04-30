@@ -1,6 +1,7 @@
 using PruebaTecnicaCarsales.BFF.Services;
 using PruebaTecnicaCarsales.BFF.Services.Interfaces;
 using PruebaTecnicaCarsales.BFF.Middleware;
+using Microsoft.AspNetCore.Mvc;
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -20,6 +21,34 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod();
         });
+});
+
+
+
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.InvalidModelStateResponseFactory = context =>
+    {
+        var errors = context.ModelState
+            .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+            .ToDictionary(
+                kvp => kvp.Key,
+                kvp => kvp.Value!.Errors
+                    .Select(e => e.ErrorMessage)
+                    .ToArray()
+            );
+
+        var result = new
+        {
+            title = "Error de validación en los datos enviados",
+            status = 400,
+            traceId = context.HttpContext.TraceIdentifier,
+            errors = errors
+        };
+
+        return new BadRequestObjectResult(result);
+    };
 });
 
 var app = builder.Build();

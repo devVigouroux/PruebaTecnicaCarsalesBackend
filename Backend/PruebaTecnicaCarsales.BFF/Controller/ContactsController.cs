@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+
+/*using Microsoft.AspNetCore.Mvc;
 using PruebaTecnicaCarsales.BFF.Domain;
 using PruebaTecnicaCarsales.BFF.Dto;
 using PruebaTecnicaCarsales.BFF.Services.Interfaces;
@@ -20,27 +17,33 @@ namespace PruebaTecnicaCarsales.BFF.Controllers
         {
             _contactService=contactService;
         }
-        [HttpGet]
+        [HttpGet("GetAllContact")]
         public IActionResult GetAll()
         {
             var contacts=_contactService.GetAll();
             if(!contacts.Any())
-                return NotFound("No existen Contactos");
-            return Ok(contacts);
+                
+                return Ok(new {message="No existen Contactos",contactos=contacts});
+            else
+            {
+                return Ok(contacts);
+            }    
+            
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetContact{id}")]
         public IActionResult GetById(int id)
         {
             var contact = _contactService.GetById(id);
             if (contact == null)
-                return NotFound("No existen registros en la lista para ese Id");
-                
-
+                return Ok(new 
+                {
+                    message="No existen registros en la lista para el Id",id
+                });
             return Ok(contact);
         }
 
-        [HttpPost]
+        [HttpPost("AddContact")]
         public ActionResult AddContact(ContactDto dto)
         {
         
@@ -53,9 +56,14 @@ namespace PruebaTecnicaCarsales.BFF.Controllers
             var deleted = _contactService.Delete(id);
 
             if (!deleted)
-                return NotFound("No existen registros");
-
-            return NoContent();
+                return Ok(new 
+                {
+                    message="No existen contactos en la lista a eliminar para el Id",id
+                });
+                return Ok(new
+                {
+                    message = "Contacto eliminado"
+                });
         }
 
         [HttpPut("{id}")]
@@ -71,4 +79,78 @@ namespace PruebaTecnicaCarsales.BFF.Controllers
     
     
 
+}*/
+using Microsoft.AspNetCore.Mvc;
+using PruebaTecnicaCarsales.BFF.Domain;
+using PruebaTecnicaCarsales.BFF.Dto;
+using PruebaTecnicaCarsales.BFF.Services.Interfaces;
+
+namespace PruebaTecnicaCarsales.BFF.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ContactsController : ControllerBase
+    {
+        private readonly IContactService _contactService;
+
+        public ContactsController(IContactService contactService)
+        {
+            _contactService = contactService;
+        }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var contacts = _contactService.GetAll();
+
+            return Ok(new
+            {
+                message = contacts.Any()
+                    ? "Contactos encontrados"
+                    : "No existen contactos",
+                contactos = contacts
+            });
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            var contact = _contactService.GetById(id);
+            return Ok(contact);
+        }
+
+        [HttpPost]
+        public IActionResult AddContact(ContactDto dto)
+        {
+            var contact = _contactService.Create(dto);
+
+            return CreatedAtAction(
+                nameof(GetById),
+                new { id = contact.Id },
+                contact
+            );
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _contactService.Delete(id);
+
+            return Ok(new
+            {
+                message = "Contacto eliminado correctamente"
+            });
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateContact(int id, ContactDto dto)
+        {
+            var updatedContact = _contactService.Update(id, dto);
+            //return Ok(updatedContact);
+            return Ok(new {
+                message="Contacto actualizado correctamente",
+                contacto=updatedContact
+            });
+        }
+    }
 }

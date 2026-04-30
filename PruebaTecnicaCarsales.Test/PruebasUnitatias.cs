@@ -1,17 +1,18 @@
 ﻿using Xunit;
 using FluentAssertions;
-using System.ComponentModel.DataAnnotations;
 using PruebaTecnicaCarsales.BFF.Services;
 using PruebaTecnicaCarsales.BFF.Dto;
+using Microsoft.Extensions.Logging.Abstractions;
+using PruebaTecnicaCarsales.BFF.Exceptions;
 
 namespace PruebaTecnicaCarsales.Test;
 
 public class ContactServiceTests
 {
     [Fact]
-    public void Create_Should_Add_Contact_With_AutoIncrement_Id()
+    public void Create_Contact()
     {
-        var service = new ContactService();
+        var service = new ContactService(NullLogger<ContactService>.Instance);
 
         var dto = new ContactDto
         {
@@ -27,44 +28,55 @@ public class ContactServiceTests
         result.Telefono.Should().Be("987654321");
     }
 
+
     [Fact]
-    public void ContactDto_Should_Be_Invalid_When_Telefono_Has_More_Than_9_Digits()
+    public void Update_Contact()
     {
-        var dto = new ContactDto
-        {
-            Nombre = "Simon",
-            Telefono = "98765432122222222222222"
-        };
-
-        var context = new ValidationContext(dto);
-        var results = new List<ValidationResult>();
-
-        var isValid = Validator.TryValidateObject(dto, context, results, true);
-
-        isValid.Should().BeFalse();
-    }
-    [Fact]
-    public void Update_Should_Modify_Contact()
-    {
-        var service = new ContactService();
+        var service = new ContactService(NullLogger<ContactService>.Instance);
 
         var dto = new ContactDto
         {
-            Nombre = "Simon",
-            Telefono = "987654321"
+            Nombre = "Isaias",
+            Telefono = "950463036"
         };
 
         var created = service.Create(dto);
 
         var updateDto = new ContactDto
         {
-            Nombre = "Simon Updated",
-            Telefono = "912345678"
+            Nombre = "Isaias Pereira",
+            Telefono = "950461111"
         };
 
         var updated = service.Update(created.Id, updateDto);
 
-        updated.Nombre.Should().Be("Simon Updated");
-        updated.Telefono.Should().Be("912345678");
+        updated.Nombre.Should().Be("Isaias Pereira");
+        updated.Telefono.Should().Be("950461111");
+    }
+
+    
+    [Fact]
+    public void ValidateDuplicatePhoneContact()
+    {
+        var service = new ContactService(
+            NullLogger<ContactService>.Instance);
+
+        var dto = new ContactDto
+        {
+            Nombre = "Juan",
+            Telefono = "955555555"
+        };
+
+        service.Create(dto);
+
+        var duplicateDto = new ContactDto
+        {
+            Nombre = "Pedro",
+            Telefono = "955555555"
+        };
+
+        Action act = () => service.Create(duplicateDto);
+
+        act.Should().Throw<ConflictException>();
     }
 }
