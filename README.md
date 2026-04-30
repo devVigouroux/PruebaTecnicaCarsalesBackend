@@ -1,67 +1,88 @@
 # API de Contactos — Prueba Técnica Carsales
 
-Esta prueba consiste en una **API REST en ASP.NET Core (.NET 10)** que permite agregar, buscar, eliminar y actualizar contactos en memoria, aplicando arquitectura desacoplada, validaciones, manejo global de errores y pruebas automatizadas.
+API REST para la gestión de contactos desarrollada en ASP.NET Core utilizando **.NET 10.0**, cumpliendo con el requerimiento de la pauta que solicitaba **.NET 6 o superior**.
 
 ---
 
-# Arquitectura
+## Prerrequisitos
 
-La solución implementa **separación de responsabilidades** por capas:
+Antes de ejecutar el proyecto asegúrese de tener instalado:
 
-- Controller → Manejo de endpoints HTTP  
-- Service → Lógica de negocio  
-- Domain → Modelo de datos  
-- DTO → Validaciones de entrada  
-- Middleware → Manejo global de excepciones  
-- Interfaces → Código desacoplado y testeable  
+- **.NET SDK 10.0 o superior**  
+  (La pauta indicaba .NET 6 o superior; esta implementación utiliza **.NET 10.0**)  
+  https://dotnet.microsoft.com/download  
 
-Esta arquitectura permite mantener el código organizado, reutilizable y fácil de testear.
+- Visual Studio Code o Visual Studio (opcional)  
+- Git (opcional)
 
----
+Para verificar la versión instalada ejecutar:
 
-# Tecnologías utilizadas
-
-- ASP.NET Core (.NET 10)
-- Swagger
-- xUnit
-- FluentAssertions
-- Angular (Frontend)
-- C#
-- Dependency Injection
-- Middleware personalizado
+    dotnet --version
 
 ---
 
-# Ejecutar Backend
+## Arquitectura
 
-Abrir terminal y ejecutar:
+La solución implementa separación de responsabilidades por capas, permitiendo mantener el código organizado y fácil de testear:
 
-cd Backend/PruebaTecnicaCarsales.BFF  
-dotnet run  
+- Controller: Manejo de endpoints HTTP  
+- Service: Lógica de negocio  
+- Domain: Modelo de datos  
+- DTO: Validaciones de entrada  
+- Middleware: Manejo global de excepciones  
+- Exceptions: Manejo de errores de negocio (Conflict y NotFound)  
+- Interfaces: Código desacoplado y reutilizable  
+
+Esta estructura facilita el mantenimiento del código y mejora la capacidad de realizar pruebas automatizadas.
+
+---
+
+## Tecnologías utilizadas
+
+- ASP.NET Core Web API  
+- .NET 10.0  
+- Swagger  
+- xUnit  
+- FluentAssertions  
+- C#  
+- Dependency Injection  
+- Middleware personalizado  
+- Logging estructurado  
+
+---
+
+## Ejecución del proyecto
+
+Ubicarse en la raíz del proyecto y ejecutar:
+
+    dotnet restore
+    dotnet build
+    dotnet run --project Backend/PruebaTecnicaCarsales.BFF
 
 Luego abrir en navegador:
 
-http://localhost:5021/swagger  
+    http://localhost:5021/swagger
 
-Esto abrirá Swagger para probar la API.
+Esto abrirá Swagger y permitirá probar los endpoints disponibles.
 
 ---
 
-# Ejecutar Tests
+## Ejecución de pruebas
 
 Desde la raíz del proyecto ejecutar:
 
-dotnet test PruebaTecnicaCarsales.Test/PruebaTecnicaCarsales.Test.csproj  
+    dotnet test
 
-Tests implementados:
+Las pruebas implementadas validan:
 
-- Test unitario (crear contacto correctamente)  
-- Test unitario (validar largo del teléfono)  
-- Test de integración (POST contacto)  
+- Creación de contactos  
+- Actualización de contactos  
+- Prevención de duplicados  
+- Funcionamiento correcto de endpoints  
 
 ---
 
-# Endpoints Disponibles
+## Endpoints disponibles
 
 Crear contacto:
 
@@ -69,24 +90,22 @@ POST /api/Contacts
 
 Ejemplo:
 
-{
-  "nombre": "Simon",
-  "telefono": "987654321"
-}
-
----
+    {
+      "nombre": "Simon",
+      "telefono": "987654321"
+    }
 
 Obtener contacto por Id:
 
 GET /api/Contacts/{id}
 
----
-
 Obtener lista de contactos:
 
 GET /api/Contacts
 
----
+Actualizar contacto:
+
+PUT /api/Contacts/{id}
 
 Eliminar contacto:
 
@@ -94,75 +113,59 @@ DELETE /api/Contacts/{id}
 
 ---
 
-# Funcionalidades implementadas
+## Funcionalidades implementadas
 
 - Id autoincrementable  
 - Validación de teléfono (9 dígitos)  
-- Evita duplicados por nombre y teléfono  
+- Prevención de duplicados por teléfono  
 - Manejo global de errores  
-- Thread-safe  
 - Uso de interfaces  
 - Logging estructurado  
+- Arquitectura desacoplada  
+- Ejecución thread-safe  
 - Tests unitarios  
-- Test de integración  
+- Tests de integración  
 
 ---
 
-# Manejo Global de Errores
+## Manejo global de errores
 
-Se implementa un middleware personalizado llamado:
+Se implementa un middleware llamado **ErrorMiddleware**, el cual captura excepciones y retorna códigos HTTP adecuados:
 
-ErrorMiddleware  
-
-Este middleware captura:
-
-- InvalidOperationException → 400 (Bad Request)  
-- Exception → 500 (Internal Server Error)  
+- 409 → Conflictos (duplicados)  
+- 404 → Recurso no encontrado  
+- 500 → Error interno  
 
 Ejemplo de respuesta:
 
-{
-  "message": "Ya existe el contacto en la lista con el mismo nombre y teléfono"
-}
+    {
+      "message": "Ya existe el contacto en la lista con el mismo teléfono"
+    }
 
-Esto permite centralizar el manejo de errores y evitar duplicar código en los controladores.
-
----
-
-# Concurrencia
-
-La solución es **thread-safe**, evitando problemas cuando múltiples solicitudes intentan agregar contactos al mismo tiempo.
-
-Se utiliza:
-
-lock(lockObject)
-
-Esto asegura que la lista de contactos se modifique de forma segura.
+Este enfoque permite centralizar el manejo de errores y mantener los controladores limpios.
 
 ---
 
-# Swagger
+## Concurrencia
 
-Swagger está habilitado y disponible en:
+La solución es thread-safe y evita problemas cuando múltiples solicitudes intentan modificar la lista de contactos simultáneamente utilizando:
 
-http://localhost:5021/swagger  
+    lock(lockObject)
 
-Permite probar todos los endpoints de la API.
-
----
-
-# Funcionalidades adicionales implementadas
-
-- Middleware personalizado  
-- Logging estructurado  
-- Arquitectura desacoplada  
-- Uso de interfaces  
-- Thread-safe  
-- Tests unitarios  
-- Test de integración  
+Esto asegura modificaciones seguras en memoria.
 
 ---
 
-# Autor
+## Swagger
+
+Swagger está habilitado en:
+
+    http://localhost:5021/swagger
+
+Permite probar todos los endpoints de forma visual.
+
+---
+
+## Autor
 
 Simón Pereira Vigouroux
