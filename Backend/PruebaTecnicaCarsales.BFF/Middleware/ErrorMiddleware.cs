@@ -33,15 +33,9 @@ public class ErrorMiddleware
 
             await WriteResponse(context, HttpStatusCode.NotFound, ex.Message);
         }
-        catch (InvalidOperationException ex)
-        {
-            _logger.LogWarning(ex, "Error de negocio");
-
-            await WriteResponse(context, HttpStatusCode.BadRequest, ex.Message);
-        }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error inesperado");
+            _logger.LogError(ex, "Error interno del servidor");
 
             await WriteResponse(
                 context,

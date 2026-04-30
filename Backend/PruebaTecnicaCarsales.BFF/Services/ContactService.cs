@@ -1,147 +1,4 @@
 
-/**using PruebaTecnicaCarsales.BFF.Domain;
-using PruebaTecnicaCarsales.BFF.Dto;
-using PruebaTecnicaCarsales.BFF.Services.Interfaces;
-using Microsoft.Extensions.Logging;
-using PruebaTecnicaCarsales.BFF.Exceptions;
-namespace PruebaTecnicaCarsales.BFF.Services;
-
-public class ContactService : IContactService
-{
-    
-    private static readonly List<Contact>contacts= new ();
-    private static readonly object lockObject= new(); 
-    private static int nextId=1;
-    private readonly ILogger<ContactService> _logger;
-
-
-    public ContactService(ILogger<ContactService> ilogger)
-    {
-        _logger=ilogger;
-    }
-
-    public IEnumerable<Contact> GetAll()
-    {
-        lock (lockObject)
-        {
-            return contacts.ToList();
-        }
-    }
-    public Contact? GetById(int id)
-    {
-        lock (lockObject)
-        {
-            return contacts.FirstOrDefault(c =>c.Id==id);
-        }
-    }
-    public bool ExistsByPhone(string telefono)
-    {
-        lock (lockObject)
-        {
-            return contacts.Any(c =>c.Telefono == telefono.Trim());
-        }
-       
-    }
-    
-    public Contact Create(ContactDto dto)
-    {
-        lock (lockObject)
-        {
-            _logger.LogInformation(
-               "Intentando crear contacto: {Nombre} - {Telefono}",
-                dto.Nombre,
-                dto.Telefono 
-            );
-            if (ExistsByPhone(dto.Telefono))
-            {
-                _logger.LogWarning(
-                "Intento de duplicado: {Telefono}",
-                dto.Telefono
-               );
-               throw new ConflictException("Ya existe el contacto en la lista con el mismo telefono");
-
-            }
-            
-           var newId = contacts.Any()
-            ? contacts.Max(c => c.Id) + 1
-            : 1;
-
-           var contact= new Contact
-           {
-              Id =nextId++,
-              Nombre = dto.Nombre.Trim(),
-              Telefono= dto.Telefono.Trim(),
-           };
-           contacts.Add(contact);
-           _logger.LogInformation("Contacto agregado con Id {Id}",contact.Id);
-           return contact;
-
-        }
-
-    }
-
-    public bool Delete(int id)
-    {
-        lock (lockObject)
-        {
-            var contact =contacts.FirstOrDefault(c=> c.Id == id);
-
-            if (contact == null)
-                return false;
-
-            contacts.Remove(contact);
-            return true;
-        }
-        
-    }
-
-    public Contact Update(int id, ContactDto dto)
-{
-    lock (lockObject)
-    {
-        _logger.LogInformation(
-            "Intentando actualizar contacto Id: {Id}",
-            id);
-
-        var contact = contacts.FirstOrDefault(c => c.Id == id);
-
-        if (contact == null)
-        {
-            _logger.LogWarning(
-                "Contacto no encontrado para actualizar: {Id}",
-                id);
-
-            throw new NotFoundException(
-                "No existe el contacto a actualizar");
-        }
-
-        // Validar duplicado (pero no contra sí mismo)
-        var exists = contacts.Any(c =>c.Telefono == dto.Telefono.Trim());
-
-        if (exists)
-        {
-            _logger.LogWarning(
-                "Intento de actualización duplicada: {Telefono}",
-                dto.Telefono);
-
-            throw new ConflictException(
-                "Ya existe otro contacto con el mismo teléfono");
-        }
-
-        // Actualizar datos
-        contact.Nombre = dto.Nombre.Trim();
-        contact.Telefono = dto.Telefono.Trim();
-
-        _logger.LogInformation(
-            "Contacto actualizado correctamente: {Id}",
-            id);
-
-        return contact;
-    }
-}
-
-}*/
-
 using Microsoft.Extensions.Logging;
 using PruebaTecnicaCarsales.BFF.Domain;
 using PruebaTecnicaCarsales.BFF.Dto;
@@ -178,7 +35,7 @@ public class ContactService : IContactService
             var contact = contacts.FirstOrDefault(c => c.Id == id);
 
             if (contact == null)
-                throw new NotFoundException("No existe un contacto con el id indicado");
+                throw new NotFoundException("Contacto no encontrado");
 
             return contact;
         }
@@ -207,7 +64,7 @@ public class ContactService : IContactService
             if (contacts.Any(c => c.Telefono == telefono))
             {
                 _logger.LogWarning(
-                    "Intento de duplicado: {Telefono}",
+                    "Telefono duplicado: {Telefono}",
                     telefono
                 );
 
@@ -226,7 +83,7 @@ public class ContactService : IContactService
             contacts.Add(contact);
 
             _logger.LogInformation(
-                "Contacto agregado con Id {Id}",
+                "Contacto creado con Id {Id}",
                 contact.Id
             );
 
@@ -241,7 +98,7 @@ public class ContactService : IContactService
             var contact = contacts.FirstOrDefault(c => c.Id == id);
 
             if (contact == null)
-                throw new NotFoundException("No existe el contacto a eliminar");
+                throw new NotFoundException("Contacto no encontrado");
 
             contacts.Remove(contact);
 
@@ -264,7 +121,7 @@ public class ContactService : IContactService
             var contact = contacts.FirstOrDefault(c => c.Id == id);
 
             if (contact == null)
-                throw new NotFoundException("No existe el contacto a actualizar");
+                throw new NotFoundException("Contacto no encontrado");
 
             var telefono = dto.Telefono.Trim();
 
