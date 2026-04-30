@@ -73,12 +73,14 @@ Desde la raíz del proyecto ejecutar:
 
     dotnet test
 
-Las pruebas implementadas validan:
+Las pruebas implementadas incluyen:
 
-- Creación de contactos  
-- Actualización de contactos  
-- Prevención de duplicados  
-- Funcionamiento correcto de endpoints  
+- Test unitario: creación de contacto  
+- Test unitario: actualización de contacto  
+- Test unitario: validación de duplicados (ConflictException)  
+- Test de integración: creación de contacto mediante endpoint HTTP (POST /api/Contacts)
+
+El test de integración valida que la API retorne correctamente el código HTTP **201 Created** cuando se crea un contacto válido y evita conflictos utilizando datos dinámicos durante la ejecución.
 
 ---
 
