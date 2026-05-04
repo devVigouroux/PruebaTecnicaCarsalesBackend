@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PruebaTecnicaCarsales.BFF.Dto
 {
-    public class ContactDto
+    public class ContactoDto
     {
         [Required(ErrorMessage="El campo Nombre es obligatorio")]
         public string Nombre { get; set; } = string.Empty;

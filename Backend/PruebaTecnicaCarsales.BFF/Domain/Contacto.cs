@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PruebaTecnicaCarsales.BFF.Domain
 {
-    public class Contact
+    public class Contacto
     {
 
         public int Id {get;set;}

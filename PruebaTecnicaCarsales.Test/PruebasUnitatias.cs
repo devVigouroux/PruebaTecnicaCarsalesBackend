@@ -7,14 +7,14 @@ using PruebaTecnicaCarsales.BFF.Exceptions;
 
 namespace PruebaTecnicaCarsales.Test;
 
-public class ContactServiceTests
+public class ContactoServiceTests
 {
     [Fact]
     public void Create_Contact()
     {
-        var service = new ContactService(NullLogger<ContactService>.Instance);
+        var service = new ContactoService(NullLogger<ContactoService>.Instance);
 
-        var dto = new ContactDto
+        var dto = new ContactoDto
         {
             Nombre = "Simon",
             Telefono = "987654321"
@@ -32,9 +32,9 @@ public class ContactServiceTests
     [Fact]
     public void Update_Contact()
     {
-        var service = new ContactService(NullLogger<ContactService>.Instance);
+        var service = new ContactoService(NullLogger<ContactoService>.Instance);
 
-        var dto = new ContactDto
+        var dto = new ContactoDto
         {
             Nombre = "Isaias",
             Telefono = "950463036"
@@ -42,7 +42,7 @@ public class ContactServiceTests
 
         var created = service.Create(dto);
 
-        var updateDto = new ContactDto
+        var updateDto = new ContactoDto
         {
             Nombre = "Isaias Pereira",
             Telefono = "950461111"
@@ -58,10 +58,10 @@ public class ContactServiceTests
     [Fact]
     public void ValidateDuplicatePhoneContact()
     {
-        var service = new ContactService(
-            NullLogger<ContactService>.Instance);
+        var service = new ContactoService(
+            NullLogger<ContactoService>.Instance);
 
-        var dto = new ContactDto
+        var dto = new ContactoDto
         {
             Nombre = "Juan",
             Telefono = "955555555"
@@ -69,7 +69,7 @@ public class ContactServiceTests
 
         service.Create(dto);
 
-        var duplicateDto = new ContactDto
+        var duplicateDto = new ContactoDto
         {
             Nombre = "Pedro",
             Telefono = "955555555"

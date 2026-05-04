@@ -7,19 +7,19 @@ namespace PruebaTecnicaCarsales.BFF.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ContactsController : ControllerBase
+    public class ContactoController : ControllerBase
     {
-        private readonly IContactService _contactService;
+        private readonly IContactoService _contactoService;
 
-        public ContactsController(IContactService contactService)
+        public ContactoController(IContactoService contactoService)
         {
-            _contactService = contactService;
+            _contactoService = contactoService;
         }
 
-        [HttpGet("GetAllContacts")]
+        [HttpGet()]
         public IActionResult GetAll()
         {
-            var contacts = _contactService.GetAll();
+            var contacts = _contactoService.GetAll();
 
             return Ok(new
             {
@@ -30,17 +30,17 @@ namespace PruebaTecnicaCarsales.BFF.Controllers
             });
         }
 
-        [HttpGet("GetContact{id}")]
+        [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            var contact = _contactService.GetById(id);
+            var contact = _contactoService.GetById(id);
             return Ok(contact);
         }
 
-        [HttpPost("AddContact")]
-        public IActionResult AddContact(ContactDto dto)
+        [HttpPost()]
+        public IActionResult AddContact(ContactoDto dto)
         {
-            var contact = _contactService.Create(dto);
+            var contact = _contactoService.Create(dto);
 
             return CreatedAtAction(
                 nameof(GetById),
@@ -52,7 +52,7 @@ namespace PruebaTecnicaCarsales.BFF.Controllers
         [HttpDelete("DeleteContact{id}")]
         public IActionResult Delete(int id)
         {
-            _contactService.Delete(id);
+            _contactoService.Delete(id);
 
             return Ok(new
             {
@@ -61,9 +61,9 @@ namespace PruebaTecnicaCarsales.BFF.Controllers
         }
 
         [HttpPut("SetContact{id}")]
-        public IActionResult UpdateContact(int id, ContactDto dto)
+        public IActionResult UpdateContact(int id, ContactoDto dto)
         {
-            var updatedContact = _contactService.Update(id, dto);
+            var updatedContact = _contactoService.Update(id, dto);
             //return Ok(updatedContact);
             return Ok(new {
                 message="Contacto actualizado correctamente",

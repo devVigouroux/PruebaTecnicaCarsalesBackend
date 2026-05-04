@@ -24,14 +24,14 @@ public class PruebasIntegracion : IClassFixture<WebApplicationFactory<Program>>
             .Next(900000000, 999999999)
             .ToString();
 
-        var dto = new ContactDto
+        var dto = new ContactoDto
         {
             Nombre = "Integracion",
             Telefono = telefono
         };
 
         var response = await _client
-            .PostAsJsonAsync("/api/Contacts", dto);
+            .PostAsJsonAsync("/api/Contacto", dto);
 
         response.StatusCode
             .Should()

@@ -7,20 +7,20 @@ using PruebaTecnicaCarsales.BFF.Services.Interfaces;
 
 namespace PruebaTecnicaCarsales.BFF.Services;
 
-public class ContactService : IContactService
+public class ContactoService : IContactoService
 {
-    private static readonly List<Contact> contacts = new();
+    private static readonly List<Contacto> contacts = new();
     private static readonly object lockObject = new();
     private static int nextId = 1;
 
-    private readonly ILogger<ContactService> _logger;
+    private readonly ILogger<ContactoService> _logger;
 
-    public ContactService(ILogger<ContactService> logger)
+    public ContactoService(ILogger<ContactoService> logger)
     {
         _logger = logger;
     }
 
-    public IEnumerable<Contact> GetAll()
+    public IEnumerable<Contacto> GetAll()
     {
         lock (lockObject)
         {
@@ -28,7 +28,7 @@ public class ContactService : IContactService
         }
     }
 
-    public Contact GetById(int id)
+    public Contacto GetById(int id)
     {
         lock (lockObject)
         {
@@ -49,7 +49,7 @@ public class ContactService : IContactService
         }
     }
 
-    public Contact Create(ContactDto dto)
+    public Contacto Create(ContactoDto dto)
     {
         lock (lockObject)
         {
@@ -73,7 +73,7 @@ public class ContactService : IContactService
                 );
             }
 
-            var contact = new Contact
+            var contact = new Contacto
             {
                 Id = nextId++,
                 Nombre = dto.Nombre.Trim(),
@@ -109,7 +109,7 @@ public class ContactService : IContactService
         }
     }
 
-    public Contact Update(int id, ContactDto dto)
+    public Contacto Update(int id, ContactoDto dto)
     {
         lock (lockObject)
         {
