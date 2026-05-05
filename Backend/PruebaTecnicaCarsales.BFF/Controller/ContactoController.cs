@@ -7,11 +7,11 @@ namespace PruebaTecnicaCarsales.BFF.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ContactoController : ControllerBase
+    public class ContactosController : ControllerBase
     {
         private readonly IContactoService _contactoService;
 
-        public ContactoController(IContactoService contactoService)
+        public ContactosController(IContactoService contactoService)
         {
             _contactoService = contactoService;
         }
