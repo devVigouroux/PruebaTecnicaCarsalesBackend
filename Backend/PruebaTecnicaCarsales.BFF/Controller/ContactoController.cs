@@ -49,7 +49,7 @@ namespace PruebaTecnicaCarsales.BFF.Controllers
             );
         }
 
-        [HttpDelete("DeleteContact{id}")]
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             _contactoService.Delete(id);
@@ -60,7 +60,7 @@ namespace PruebaTecnicaCarsales.BFF.Controllers
             });
         }
 
-        [HttpPut("SetContact{id}")]
+        [HttpPut("{id}")]
         public IActionResult UpdateContact(int id, ContactoDto dto)
         {
             var updatedContact = _contactoService.Update(id, dto);
