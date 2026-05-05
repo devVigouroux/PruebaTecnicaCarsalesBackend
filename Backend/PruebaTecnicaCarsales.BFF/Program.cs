@@ -3,7 +3,10 @@ using PruebaTecnicaCarsales.BFF.Services.Interfaces;
 using PruebaTecnicaCarsales.BFF.Middleware;
 using Microsoft.AspNetCore.Mvc;
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddRouting(options =>
+{
+    options.LowercaseUrls = true;
+});
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<IContactoService, ContactoService>();
@@ -62,6 +65,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 
 app.MapControllers();
 
